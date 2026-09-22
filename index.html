@@ -1579,6 +1579,31 @@ function viewLogin(){
   `;
 }
 function setAuthMode(m){ AUTH_MODE=m; render(); }
+async function syncAccountData(){
+  if(!STATE.user || !STATE.user.userId){
+    return;
+  }
+
+  try{
+    // Ambil wishlist berdasarkan user_id akun yang sedang login
+    const wishlistData = await apiGet('wishlist', {
+      user_id: STATE.user.userId
+    });
+
+    STATE.wishlist = (wishlistData.wishlist || [])
+      .map(item => String(item.product_id));
+
+    saveState();
+    updateHeaderBadges();
+
+    // Perbarui tampilan setelah data akun selesai diambil
+    render();
+
+  }catch(error){
+    console.error('Gagal mengambil data akun:', error);
+    throw error;
+  }
+}
 async function submitAuth(e){
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1596,10 +1621,22 @@ async function submitAuth(e){
       showToast('Gagal membuat akun: ' + (data.message||''));
       return false;
     }
+    // Bersihkan data akun sebelumnya sebelum login akun baru
+    STATE.wishlist = [];
+    STATE.orders = [];
+    STATE.addresses = [];
+    STATE.cart = [];
+    STATE.points = 0;
     STATE.user = { user_id: data.user.user_id, name: data.user.nama, email: data.user.email };
     saveState();
-    showToast('Selamat datang, '+STATE.user.name+'!', ICON_CHECK);
 
+try {
+  await syncAccountData();
+} catch (error) {
+  console.error('Gagal sinkronisasi data akun:', error);
+}
+
+showToast('Selamat datang, '+STATE.user.name+'!', ICON_CHECK);
     location.hash = '#/akun';
     render();   // ← dipanggil langsung, nggak nunggu event hashchange
   }catch(err){
@@ -1608,8 +1645,19 @@ async function submitAuth(e){
   }
   return false;
 }
-function logout(){ STATE.user=null; saveState(); showToast('Kamu sudah keluar'); location.hash='#/beranda'; }
+function logout(){
+  STATE.user = null;
+  STATE.wishlist = [];
+  STATE.cart = [];
+  STATE.orders = [];
+  STATE.addresses = [];
+  saveState();
 
+  updateHeaderBadges();
+  showToast('Kamu sudah keluar');
+  location.hash = '#/beranda';
+  render();
+}
 function viewAkun(){
   if(!STATE.user) return viewLogin();
   const orders = STATE.orders.slice().reverse();
