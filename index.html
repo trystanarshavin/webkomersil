@@ -2177,6 +2177,7 @@ async function submitAuth(e){
   const button = e.target.querySelector('button[type="submit"]');
   const defaultLabel = AUTH_MODE==='daftar' ? 'Buat Akun' : 'Masuk';
   if(button){ button.disabled=true; button.textContent='Memeriksa…'; }
+  showToast(AUTH_MODE==='daftar'?'Membuat akun…':'Memeriksa akun…');
   try{
     let data;
     if(AUTH_MODE==='daftar'){
