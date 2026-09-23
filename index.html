@@ -502,9 +502,12 @@ footer a{color:#e9dfcd;}
   font-weight:700;
   color:white;
 }
+.region-hero .crumbs{color:rgba(255,255,255,.88);text-shadow:0 1px 4px rgba(0,0,0,.55);}
+.region-hero .crumbs a{color:#fff;}
 .region-hero h1{
   font-size:clamp(2rem,4vw,4.4rem);
   color:white;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
 }
 .region-body{padding:48px 0;}
 .region-2col{display:grid;grid-template-columns:1.2fr .8fr;gap:44px;}
@@ -830,7 +833,26 @@ footer .brand-word{font-size:21px;}
   #mobiledrawer .panel{background:#fffdf8;color:#211612;}
   #mobiledrawer .scrim{background:rgba(33,22,18,.28);}
   #mobiledrawer a{color:#211612;border-color:rgba(33,22,18,.1);}
+  .hero h1{font-size:clamp(34px,10vw,46px);line-height:1.08;}
+  .hero-lead{font-size:15px;line-height:1.6;}
+  .auth-wrap{padding-left:18px;padding-right:18px;}
+  .auth-wrap h1{font-size:30px;line-height:1.12;}
+  .auth-wrap p{font-size:14px;line-height:1.5;}
+  .region-body p{line-height:1.65;}
+  .spec-row{align-items:flex-start;gap:14px;}
+  .spec-row span:last-child{max-width:58%;overflow-wrap:anywhere;}
 }
+#searchpanel{background:#f7f2e9;color:#211612;}
+#searchpanel .search-box input,#navSearchInput{background:#fffdf8;color:#211612;border-color:rgba(33,22,18,.2);-webkit-text-fill-color:#211612;}
+#searchpanel .search-box input::placeholder,#navSearchInput::placeholder{color:#75645a;opacity:1;}
+#searchpanel .search-box svg{color:#55473f;}
+#topnav .btn-icon{color:#211612;background:#fffdf8;border-color:rgba(33,22,18,.2);}
+#topnav .btn-icon svg{color:#211612;}
+#bottomtabs a{color:#55473f;}
+#bottomtabs a.active{color:#9b3e2d;}
+#bottomtabs svg{color:currentColor;}
+:root,:root[data-theme="dark"]{color-scheme:light;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:light;}}
 </style>
 </head>
 <body>
@@ -1596,7 +1618,7 @@ function viewRegionDetail(regionId){
   position:relative;
   overflow:hidden;
   background-image:
-    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.45)),
+    linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.62)),
     url('${esc(r.image)}');
   background-size:cover;
   background-position:center;
@@ -2152,6 +2174,9 @@ async function submitAuth(e){
   const name = String(fd.get('name') || (String(fd.get('email')||'').split('@')[0])).trim();
   const email = String(fd.get('email') || '').trim().toLowerCase();
   if(!email) return false;
+  const button = e.target.querySelector('button[type="submit"]');
+  const defaultLabel = AUTH_MODE==='daftar' ? 'Buat Akun' : 'Masuk';
+  if(button){ button.disabled=true; button.textContent='Memeriksa…'; }
   try{
     let data;
     if(AUTH_MODE==='daftar'){
@@ -2166,13 +2191,15 @@ async function submitAuth(e){
     STATE.wishlist=[]; STATE.orders=[]; STATE.addresses=[]; STATE.cart=[]; STATE.points=0;
     STATE.user={userId:data.user.user_id,name:data.user.nama,email:data.user.email,phone:data.user.no_hp||''};
     saveState();
-    await syncAccountData().catch(err=>console.error('Sync akun:',err));
+    syncAccountData().catch(err=>console.error('Sync akun:',err));
     showToast(AUTH_MODE==='daftar'?'Akun berhasil dibuat!':'Login berhasil!',ICON_CHECK);
     location.hash='#/akun';
     render();
   }catch(err){
     console.error(err);
     showToast(err.message||'Gagal terhubung ke server.');
+  }finally{
+    if(button){ button.disabled=false; button.textContent=defaultLabel; }
   }
   return false;
 }
