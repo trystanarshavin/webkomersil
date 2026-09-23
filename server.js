@@ -1,86 +1,144 @@
 const express = require("express");
-const midtransClient = require("midtrans-client");
 const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
+// Google Apps Script yang aktif
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyveHvyVVFHAgEXh6dANiVxw9RsnYf2hGzl22Nc3Ca6Ovcmol3yJPRahSpsiSddJDqD/exec";
+  process.env.GOOGLE_SCRIPT_URL ||
+  process.env.APPS_SCRIPT_URL ||
+  "https://script.google.com/macros/s/AKfycbxwvl9fXI_QGQ6SNhX_JjW1pDc5sBBCaML6z0xZoNOYUxeV4vz7Eh6k8ehKwEhCebrm/exec";
 
-app.use(express.json({ type: ["application/json", "text/plain"] }));
+// Middleware
+app.use(express.json({
+  type: ["application/json", "text/plain"],
+  limit: "2mb"
+}));
+
+app.use(express.urlencoded({
+  extended: true
+}));
+
+// Serve index.html + gambar + asset lainnya
 app.use(express.static(path.join(__dirname)));
 
-const snap = new midtransClient.Snap({
-  isProduction: false,
-  serverKey: process.env.MIDTRANS_SERVER_KEY,
-  clientKey: process.env.MIDTRANS_CLIENT_KEY
-});
+
+/* =========================================================
+   TEST SERVER
+========================================================= */
 
 app.get("/api/test", (req, res) => {
-  res.json({ success: true, message: "Server Kopi Avicena aktif" });
+  res.json({
+    success: true,
+    message: "Server Kopi Avicena aktif"
+  });
 });
 
-// Client Key boleh dikirim ke browser karena memang digunakan oleh Snap.js.
-app.get("/api/midtrans-config", (req, res) => {
-  if (!process.env.MIDTRANS_CLIENT_KEY) {
-    return res.status(500).json({
-      success: false,
-      message: "MIDTRANS_CLIENT_KEY belum ada di file .env"
-    });
-  }
-  res.json({ success: true, clientKey: process.env.MIDTRANS_CLIENT_KEY });
-});
+
+/* =========================================================
+   GOOGLE SHEETS - GET
+========================================================= */
 
 app.get("/api/sheets", async (req, res) => {
   try {
     const params = new URLSearchParams();
-    Object.keys(req.query).forEach((key) => params.set(key, req.query[key]));
 
-    const url = GOOGLE_SCRIPT_URL + "?" + params.toString();
+    Object.entries(req.query).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        params.set(key, String(value));
+      }
+    });
+
+    const separator = GOOGLE_SCRIPT_URL.includes("?")
+      ? "&"
+      : "?";
+
+    const url =
+      GOOGLE_SCRIPT_URL +
+      separator +
+      params.toString();
+
     console.log("Google Sheets GET:", url);
 
-    const response = await fetch(url, { redirect: "follow" });
+    const response = await fetch(url, {
+      method: "GET",
+      redirect: "follow"
+    });
+
     const text = await response.text();
 
     console.log(
-      "Google Sheets response:",
+      "Google Sheets GET response:",
       response.status,
       text.substring(0, 300)
     );
 
     try {
       const data = JSON.parse(text);
-      res.status(response.status).json(data);
-    } catch (e) {
-      res.status(502).json({
+
+      return res
+        .status(response.status)
+        .json(data);
+
+    } catch (error) {
+
+      return res.status(502).json({
         success: false,
-        message: "Apps Script mengembalikan respons yang bukan JSON.",
+        message:
+          "Google Apps Script mengembalikan data yang bukan JSON.",
         upstreamStatus: response.status,
         upstreamPreview: text.substring(0, 300)
       });
     }
+
   } catch (error) {
-    console.error("Google Sheets GET Error:", error);
+
+    console.error(
+      "Google Sheets GET Error:",
+      error
+    );
+
     res.status(500).json({
       success: false,
-      message: "Gagal menghubungkan ke Google Sheets",
+      message:
+        "Gagal menghubungkan ke Google Sheets.",
       error: error.message
     });
   }
 });
 
+
+/* =========================================================
+   GOOGLE SHEETS - POST
+========================================================= */
+
 app.post("/api/sheets", async (req, res) => {
   try {
-    console.log("Google Sheets POST:", req.body);
 
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(req.body),
-      redirect: "follow"
-    });
+    console.log(
+      "Google Sheets POST:",
+      req.body
+    );
+
+    const response = await fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify(
+          req.body || {}
+        ),
+
+        redirect: "follow"
+      }
+    );
 
     const text = await response.text();
 
@@ -91,66 +149,50 @@ app.post("/api/sheets", async (req, res) => {
     );
 
     try {
+
       const data = JSON.parse(text);
-      res.status(response.status).json(data);
-    } catch (e) {
-      res.status(502).json({
+
+      return res
+        .status(response.status)
+        .json(data);
+
+    } catch (error) {
+
+      return res.status(502).json({
         success: false,
-        message: "Apps Script mengembalikan respons yang bukan JSON.",
+        message:
+          "Google Apps Script mengembalikan data yang bukan JSON.",
         upstreamStatus: response.status,
-        upstreamPreview: text.substring(0, 300)
+        upstreamPreview:
+          text.substring(0, 300)
       });
     }
+
   } catch (error) {
-    console.error("Google Sheets POST Error:", error);
+
+    console.error(
+      "Google Sheets POST Error:",
+      error
+    );
+
     res.status(500).json({
       success: false,
-      message: "Gagal mengirim data ke Google Sheets",
+      message:
+        "Gagal mengirim data ke Google Sheets.",
       error: error.message
     });
   }
 });
 
-app.post("/api/create-transaction", async (req, res) => {
-  try {
-    const { orderId, grossAmount, customer } = req.body;
 
-    if (!orderId) {
-      return res.status(400).json({ success: false, message: "orderId wajib diisi" });
-    }
-    if (!grossAmount) {
-      return res.status(400).json({ success: false, message: "grossAmount wajib diisi" });
-    }
-
-    const parameter = {
-      transaction_details: {
-        order_id: orderId,
-        gross_amount: Number(grossAmount)
-      },
-      customer_details: {
-        first_name: customer?.name || "Customer",
-        email: customer?.email || "customer@example.com",
-        phone: customer?.phone || ""
-      }
-    };
-
-    const transaction = await snap.createTransaction(parameter);
-
-    res.json({
-      success: true,
-      token: transaction.token,
-      redirect_url: transaction.redirect_url
-    });
-  } catch (error) {
-    console.error("Midtrans Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Gagal membuat transaksi Midtrans",
-      error: error.message
-    });
-  }
-});
+/* =========================================================
+   START SERVER
+========================================================= */
 
 app.listen(PORT, () => {
-  console.log(`Kopi Avicena berjalan di http://localhost:${PORT}`);
+
+  console.log(
+    `Kopi Avicena berjalan di http://localhost:${PORT}`
+  );
+
 });

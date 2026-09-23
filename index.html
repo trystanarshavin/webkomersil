@@ -291,6 +291,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .pcard-region{font-size:11.5px;color:var(--ink-soft);font-weight:600;}
 .pcard-title{font-family:"Fraunces",serif;font-size:17px;font-weight:560;line-height:1.25;}
 .pcard-notes{font-size:12.5px;color:var(--ink-soft);}
+.product-rating{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--brass-deep);}
+.product-rating-stars{letter-spacing:1px;line-height:1;color:var(--brass);}
+.product-rating-count{color:var(--ink-soft);}
+.halal-badge{display:inline-flex;align-items:center;gap:5px;width:max-content;padding:3px 0;color:var(--jade);font-size:10px;font-weight:700;letter-spacing:.04em;background:transparent;}
+.halal-badge img{width:42px;height:auto;display:block;object-fit:contain;}
 .pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;}
 .pcard-price{font-weight:700;font-size:15px;}
 .pcard-add{
@@ -387,10 +392,15 @@ footer a{color:#e9dfcd;}
 
 /* map */
 .map-wrap{position:relative;padding:10px 0 6px;}
-.map-wrap svg{width:100%;height:auto;}
-.map-pin{cursor:pointer;}
-.map-pin circle.dot{fill:var(--brick);}
-.map-pin text{font-size:9.5px;font-weight:700;fill:var(--ink);font-family:"Plus Jakarta Sans",sans-serif;}
+.map-frame{display:block;width:100%;height:360px;border:0;border-radius:var(--radius-m);box-shadow:0 8px 24px rgba(36,23,18,.12);}
+@media(max-width:640px){.map-frame{height:300px;}}
+
+/* product rating */
+.rating-panel{margin:24px 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.rating-panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.rating-actions{display:flex;gap:4px;}
+.rating-star-btn{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--brass);cursor:pointer;font-size:17px;line-height:1;}
+.rating-star-btn:hover,.rating-star-btn:focus-visible{background:var(--brass-tint);border-color:var(--brass-deep);}
 
 /* testimonials */
 .quote-row{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
@@ -609,6 +619,194 @@ footer a{color:#e9dfcd;}
 .mt0{margin-top:0;}
 .container-narrow{max-width:760px;margin:0 auto;}
 .split-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+
+/* ===== BARISTA DASHBOARD ===== */
+.barista-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.barista-stat-label{font-size:12px;color:var(--ink-soft);margin-bottom:8px;}
+.barista-stat-num{font-size:30px;font-weight:700;}
+.barista-orders{display:grid;gap:14px;}
+.barista-order-card,.barista-stock-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;}
+.barista-meta{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+.barista-item-list{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin:14px 0;}
+.barista-item-list>div{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0;}
+.barista-stock-list{display:grid;gap:12px;}
+.barista-stock-card{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.barista-stock-control{display:flex;align-items:center;gap:8px;}
+.barista-stock-control>button:not(.btn){width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer;}
+@media(max-width:800px){.barista-grid{grid-template-columns:repeat(2,1fr);}.barista-stock-card{align-items:flex-start;flex-direction:column;}.barista-stock-control{width:100%;}}
+@media(max-width:480px){.barista-grid{grid-template-columns:1fr 1fr;}.barista-stock-control{flex-wrap:wrap;}}
+
+/* =========================================================
+   VISUAL REFRESH
+   ========================================================= */
+:root{
+  --paper:#f1eadc;
+  --paper-deep:#e4d6bd;
+  --card:#fffdf8;
+  --ink:#211612;
+  --ink-soft:#66564c;
+  --coffee:#24130d;
+  --coffee-deep:#120a07;
+  --brass:#c18a35;
+  --brass-deep:#8c5d19;
+  --brass-tint:#f0dfba;
+  --jade:#245247;
+  --jade-tint:#d8e6dc;
+  --brick:#9b3e2d;
+  --line:rgba(33,22,18,.16);
+  --line-soft:rgba(33,22,18,.09);
+  --shadow-soft:0 8px 24px rgba(50,28,14,.08);
+  --radius-s:6px;
+  --radius-m:14px;
+  --radius-l:28px;
+}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(rgba(255,255,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);
+  background-size:34px 34px;
+  overflow-x:clip;
+}
+h1,h2,h3,h4{letter-spacing:0;color:var(--ink);}
+.container{max-width:1240px;}
+#topnav{background:rgba(241,234,220,.9);border-bottom:1px solid rgba(33,22,18,.12);box-shadow:0 4px 20px rgba(50,28,14,.05);}
+.nav-inner{height:82px;}
+.brand-word{font-size:23px;}
+.brand-word em{color:var(--brick);}
+.nav-links{gap:26px;}
+.nav-links a{font-size:13px;letter-spacing:.02em;text-transform:uppercase;}
+.nav-links a::after{height:3px;background:var(--brass);bottom:-7px;}
+.btn{border-radius:9px;padding:14px 21px;box-shadow:0 3px 0 rgba(33,22,18,.12);}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--coffee);}
+.btn-primary:hover{background:var(--brick);}
+.btn-ghost{background:rgba(255,253,248,.45);border-color:rgba(33,22,18,.22);}
+.btn-brass{background:var(--brass);}
+.btn-icon{border-radius:10px;background:rgba(255,253,248,.45);}
+.hero{padding-top:76px;padding-bottom:54px;}
+.hero-grid{gap:74px;}
+.hero h1{font-size:clamp(40px,5.8vw,72px);max-width:680px;line-height:1.02;}
+.hero h1::first-line{color:var(--coffee);}
+.hero-lead{font-size:17px;line-height:1.7;max-width:520px;}
+.hero-art{background:var(--coffee);border-radius:50% 50% 45% 45%;min-height:430px;overflow:hidden;box-shadow:14px 18px 0 var(--brass-tint);}
+.hero-art svg{max-width:430px;filter:drop-shadow(0 16px 10px rgba(0,0,0,.22));}
+.stat-strip{border-top:2px solid var(--ink);}
+.stat-num{font-size:28px;color:var(--brick);}
+.section{padding:92px 0;}
+.eyebrow-row{margin-bottom:38px;}
+.eyebrow-row h2{font-size:clamp(29px,3.8vw,44px);}
+.pcard{border-radius:18px;border-color:rgba(33,22,18,.13);box-shadow:var(--shadow-soft);}
+.pcard:hover{transform:translateY(-8px);box-shadow:0 18px 34px rgba(50,28,14,.15);}
+.pcard-visual{background:var(--paper-deep);}
+.pcard-body{padding:18px 18px 20px;}
+.pcard-title{font-size:19px;}
+.pcard-notes{line-height:1.5;}
+.pcard-add{border-radius:10px;width:40px;height:40px;background:var(--brick);}
+.pcard-add:hover{background:var(--coffee);}
+.halal-badge{height:42px;min-width:26px;padding:0;align-items:center;justify-content:center;}
+.halal-badge img{width:26px;height:42px;object-fit:contain;}
+.pcard-badges{top:auto;bottom:10px;left:10px;flex-direction:row;align-items:flex-end;}
+.pcard-badges .halal-badge{background:transparent !important;box-shadow:none !important;border:0;}
+.region-chip{border-radius:18px;box-shadow:var(--shadow-soft);}
+.region-chip:hover{box-shadow:0 18px 32px rgba(50,28,14,.16);}
+.news-band{border-radius:20px;background:var(--coffee);color:#f8efdf;padding:50px 52px;box-shadow:12px 12px 0 var(--brass-tint);}
+.news-band h3,.news-band p{color:#f8efdf;}
+.pagehead{padding-top:60px;padding-bottom:36px;}
+.pagehead h1{font-size:clamp(32px,4.6vw,54px);}
+.cat-layout{gap:48px;padding-top:44px;}
+.filter-panel{background:rgba(255,253,248,.55);border:1px solid var(--line);border-radius:16px;padding:22px;position:sticky;top:calc(var(--nav-h) + 18px);}
+.filter-block{margin-bottom:30px;}
+.filter-block h4{text-transform:uppercase;letter-spacing:.1em;font-size:11px;color:var(--brick);}
+.search-box input,.sortselect{border-radius:10px;background:var(--card);border-color:var(--line);}
+.pd-layout{gap:68px;padding-top:58px;}
+.pd-visual{border-radius:24px;box-shadow:12px 14px 0 var(--brass-tint);}
+.pd-layout h1{font-size:clamp(34px,4vw,50px) !important;line-height:1.02;}
+.summary-card,.spec-card,.order-card,.barista-order-card,.barista-stock-card,.ewpay-card{border-radius:18px;box-shadow:var(--shadow-soft);}
+.summary-card{border-top:4px solid var(--brick);}
+footer{margin-top:92px;}
+@media(max-width:920px){.hero-art{min-height:340px;}.hero-grid{gap:42px;}}
+@media(max-width:640px){
+  .hero{padding-top:48px;}
+  .hero h1{font-size:clamp(38px,12vw,56px);}
+  .hero-art{min-height:280px;box-shadow:8px 10px 0 var(--brass-tint);}
+  .section{padding:62px 0;}
+  .news-band{padding:32px 24px;box-shadow:7px 8px 0 var(--brass-tint);}
+  .filter-panel{position:static;}
+}
+
+/* =========================================================
+   WARM COFFEEHOUSE DIRECTION
+   ========================================================= */
+body{background-image:none;background-color:#f7f2e9;}
+#topnav{background:rgba(247,242,233,.94);}
+.nav-inner{height:72px;}
+.nav-links a{text-transform:none;letter-spacing:0;font-size:14px;}
+.nav-links a::after{bottom:-5px;height:2px;background:var(--brick);}
+.hero{padding-top:64px;padding-bottom:40px;}
+.hero-grid{grid-template-columns:1.15fr .85fr;gap:46px;}
+.hero h1{font-size:clamp(38px,5vw,62px);line-height:1.06;max-width:600px;}
+.hero-lead{font-size:16px;line-height:1.65;max-width:500px;}
+.hero-art{min-height:390px;background:var(--paper-deep);border:1px solid var(--line);border-radius:24px;box-shadow:none;}
+.hero-art svg{max-width:360px;filter:none;}
+.hero-ctas{margin:22px 0 30px;}
+.section{padding:68px 0;}
+.eyebrow-row{margin-bottom:26px;}
+.eyebrow-row h2{font-size:clamp(26px,3.2vw,38px);}
+.pcard{border-radius:12px;box-shadow:0 4px 14px rgba(50,28,14,.06);}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(50,28,14,.11);}
+.pcard-body{padding:15px 16px 17px;}
+.pcard-title{font-size:17px;}
+.pcard-add{width:36px;height:36px;border-radius:50%;}
+.news-band{border-radius:14px;box-shadow:none;background:var(--jade-tint);padding:34px 38px;}
+.news-band h3{color:var(--ink);}
+.news-band p{color:var(--ink-soft);}
+.news-band .news-form input{background:var(--card);border-color:var(--line);color:var(--ink);}
+.news-band .news-form input::placeholder{color:var(--ink-soft);}
+.news-band .news-form .btn-primary{background:var(--coffee);color:var(--paper);}
+.pagehead{padding-top:42px;padding-bottom:28px;}
+.pagehead h1{font-size:clamp(30px,4vw,46px);}
+.cat-layout{padding-top:32px;}
+.filter-panel{background:transparent;border:0;padding:0;box-shadow:none;}
+.pd-layout{padding-top:42px;gap:52px;}
+.pd-visual{border-radius:16px;box-shadow:none;}
+.summary-card,.spec-card,.order-card,.barista-order-card,.barista-stock-card,.ewpay-card{box-shadow:0 4px 16px rgba(50,28,14,.06);}
+.nav-actions{gap:8px;}
+.btn-icon{transition:transform .18s ease,background .18s ease,border-color .18s ease;}
+.btn-icon:hover{transform:translateY(-2px);background:var(--card);border-color:var(--brass);}
+.pcard-visual img{transition:transform .45s cubic-bezier(.2,.7,.2,1);}
+.pcard:hover .pcard-visual img{transform:scale(1.045);}
+.pcard-badges .halal-badge{padding:0;background:rgba(255,253,248,.9);border-radius:5px;box-shadow:0 2px 8px rgba(33,22,18,.12);}
+.product-rating{min-height:18px;}
+.product-rating-stars{font-size:13px;}
+.field input,.field select,.field textarea{min-height:46px;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;}
+.field input:focus,.field select:focus,.field textarea:focus{background:var(--card);box-shadow:0 0 0 3px rgba(193,138,53,.16);}
+.search-box input:focus,.sortselect:focus{outline:0;border-color:var(--brass-deep);box-shadow:0 0 0 3px rgba(193,138,53,.14);}
+.opt-chip,.pay-option,.ewallet-item{transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;}
+.opt-chip:hover,.ewallet-item:hover{transform:translateY(-2px);border-color:var(--brass-deep);}
+.pay-option:hover{border-color:var(--brass-deep);box-shadow:0 5px 14px rgba(50,28,14,.07);}
+.pay-option.selected{box-shadow:inset 3px 0 var(--brick),0 5px 14px rgba(50,28,14,.07);}
+.steps-nav{position:relative;gap:0;justify-content:space-between;}
+.steps-nav::before{content:"";position:absolute;left:12px;right:12px;top:12px;height:1px;background:var(--line);z-index:0;}
+.steps-nav .stepitem{position:relative;z-index:1;background:var(--paper);padding:0 8px;}
+.steps-nav .stepitem .dot{background:var(--paper);}
+.steps-nav .stepitem.active .dot,.steps-nav .stepitem.done .dot{box-shadow:0 0 0 4px var(--paper);}
+.rating-star-btn{transition:transform .16s ease,background .16s ease,border-color .16s ease;}
+.rating-star-btn:hover{transform:translateY(-2px) scale(1.04);}
+.map-frame{background:var(--paper-deep);}
+footer .brand-word{font-size:21px;}
+@media(max-width:640px){
+  .nav-inner{padding-left:16px;padding-right:16px;gap:10px;}
+  .nav-actions{gap:6px;}
+  .nav-actions .btn-icon{width:40px;height:40px;}
+  .pcard-body{padding-left:13px;padding-right:13px;}
+  .pcard-title{font-size:16px;}
+  .steps-nav .stepitem{font-size:11px;padding:0 3px;}
+  .steps-nav .stepitem .dot{width:22px;height:22px;font-size:10px;}
+  .steps-nav::before{left:10px;right:10px;top:11px;}
+}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;}.hero-art{min-height:320px;}}
+@media(max-width:640px){.hero{padding-top:42px;}.hero-art{min-height:260px;}.news-band{padding:28px 24px;}}
+@media(max-width:900px){.region-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}}
+@media(max-width:520px){.region-grid{grid-template-columns:1fr !important;}}
 </style>
 </head>
 <body>
@@ -742,6 +940,10 @@ footer a{color:#e9dfcd;}
       <div>
         <h4>Tetap Terhubung</h4>
         <p style="opacity:.75;font-size:13px;margin-bottom:14px;">Kabar racikan baru &amp; cerita petani, langsung ke inbox kamu.</p>
+        <a class="social-link" href="https://www.instagram.com/trystaaannn/" target="_blank" rel="noopener noreferrer" aria-label="Instagram @trystaaannn" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13.5px;font-weight:700;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.7" r="1" fill="currentColor"/></svg>
+          @trystaaannn
+        </a>
         <form class="news-form" style="max-width:none;" onsubmit="return handleNewsletter(event)">
           <input type="email" required placeholder="Alamat email" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
           <button class="btn btn-brass btn-sm" type="submit">Gabung</button>
@@ -832,6 +1034,17 @@ const PRODUCTS = [
 
 const SIZES = [ {id:'200g',label:'200 g',mult:1}, {id:'500g',label:'500 g',mult:2.4}, {id:'1kg',label:'1 kg',mult:4.4} ];
 const GRINDS = ['Biji Utuh','Halus (Espresso)','Sedang (V60/Drip)','Kasar (French Press)'];
+const PRODUCT_RATINGS = {
+  'gayo-wine': {value:4.9,count:28},
+  'toraja-honey': {value:4.8,count:34},
+  'kintamani-natural': {value:4.7,count:21},
+  'bajawa-fullwash': {value:4.8,count:19},
+  'mandailing-sidikalang': {value:4.9,count:41},
+  'preanger-heirloom': {value:4.6,count:16},
+  'lintong-humbahas': {value:4.8,count:27},
+  'wamena-organic': {value:4.9,count:23}
+};
+const RatingKey = 'kopiAvicenaRatings_v1';
 
 const TRACKING_STAGES = [
   {key:'confirmed', label:'Pesanan Dikonfirmasi', desc:'Pesanan kamu sudah kami terima dan sedang divalidasi.'},
@@ -844,6 +1057,123 @@ const TRACKING_STAGES = [
 ];
 
 /* =========================================================
+   API
+   ========================================================= */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzve3tkze6LmIq8jZWuG1vUQJzK-11NqRdnxBuThJBkruFj4OhOERKB4ajq5stDBvCK/exec';
+
+async function fetchApiWithRetry(url, options={}, label='API'){
+  let lastError = null;
+
+  for(let attempt=1; attempt<=3; attempt++){
+    const controller = new AbortController();
+    const timer = setTimeout(()=>controller.abort(), 15000);
+
+    try{
+      const res = await fetch(url, {
+        ...options,
+        redirect:'follow',
+        cache:'no-store',
+        signal:controller.signal
+      });
+
+      const raw = await res.text();
+      const contentType = (res.headers.get('content-type') || '').toLowerCase();
+
+      let data = null;
+      try{
+        data = JSON.parse(raw);
+      }catch(parseErr){
+        lastError = new Error(
+          `${label} gagal (HTTP ${res.status}). Server tidak mengembalikan JSON.`
+        );
+
+        console.error(label+' response:', {
+          status: res.status,
+          contentType,
+          body: raw.slice(0, 500)
+        });
+
+        // Google Apps Script kadang memberi redirect/error sementara.
+        // Coba lagi sebelum menampilkan error ke pengguna.
+        if(attempt < 3){
+          await new Promise(resolve=>setTimeout(resolve, attempt * 1000));
+          continue;
+        }
+        throw lastError;
+      }
+
+      if(!res.ok){
+        throw new Error(data?.message || `${label} gagal (HTTP ${res.status}).`);
+      }
+
+      if(!data || typeof data !== 'object'){
+        throw new Error(`${label} mengembalikan data yang tidak valid.`);
+      }
+
+      if(data.success !== true){
+        throw new Error(data.message || `${label} gagal diproses.`);
+      }
+
+      return data;
+
+    }catch(err){
+      lastError = err.name === 'AbortError'
+        ? new Error(`${label} timeout. Coba lagi.`)
+        : err;
+
+      console.error(`${label} attempt ${attempt}:`, lastError);
+
+      if(attempt < 3){
+        await new Promise(resolve=>setTimeout(resolve, attempt * 1000));
+      }
+    }finally{
+      clearTimeout(timer);
+    }
+  }
+
+  throw lastError || new Error(`${label} gagal.`);
+}
+
+async function apiGet(action, params={}){
+  const qs = new URLSearchParams({
+    action,
+    ...params,
+    _: Date.now().toString()
+  });
+
+  return fetchApiWithRetry(
+    APPS_SCRIPT_URL + '?' + qs.toString(),
+    {method:'GET'},
+    `GET ${action}`
+  );
+}
+
+async function apiPost(action, payload = {}) {
+  // Ambil user_id dari state, atau dari localStorage jika state belum terisi
+  const currentUserId = 
+    payload.user_id || 
+    (typeof state !== 'undefined' && state?.user_id) || 
+    (typeof state !== 'undefined' && state?.user?.user_id) || 
+    JSON.parse(localStorage.getItem('kopiAvicenaState_v1') || '{}')?.user_id || 
+    '';
+
+  const dataToSend = {
+    action: action,
+    user_id: currentUserId,
+    ...payload
+  };
+
+  return fetchApiWithRetry(
+    APPS_SCRIPT_URL + '?_=' + Date.now(),
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(dataToSend)
+    },
+    `POST ${action}`
+  );
+}
+/* =========================================================
    STATE (persisted to localStorage)
    ========================================================= */
 const StateKey = 'kopiAvicenaState_v1';
@@ -852,12 +1182,14 @@ function loadState(){
     const raw = localStorage.getItem(StateKey);
     if(raw) return JSON.parse(raw);
   }catch(e){}
-  return { cart:[], wishlist:[], user:null, orders:[], points:120 };
+  return { cart:[], wishlist:[], user:null, barista:null, orders:[], points:120 };
 }
 let STATE = loadState();
 function saveState(){
   try{ localStorage.setItem(StateKey, JSON.stringify(STATE)); }catch(e){}
 }
+STATE.user = null;
+saveState();
 
 /* =========================================================
    HELPERS
@@ -866,6 +1198,30 @@ function rupiah(n){ return 'Rp' + Math.round(n).toLocaleString('id-ID'); }
 function getProduct(id){ return PRODUCTS.find(p=>p.id===id); }
 function getRegion(id){ return REGIONS[id]; }
 function esc(s){ return (s+'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function productRating(p){ return PRODUCT_RATINGS[p.id] || {value:4.5,count:0}; }
+function ratingStars(value){
+  const rounded = Math.round(Number(value)||0);
+  return Array.from({length:5}, (_,i)=>i<rounded?'★':'☆').join('');
+}
+function getUserRating(productId){
+  try{ return Number(JSON.parse(localStorage.getItem(RatingKey)||'{}')[productId] || 0); }catch(e){ return 0; }
+}
+function rateProduct(productId, value){
+  try{
+    const ratings = JSON.parse(localStorage.getItem(RatingKey)||'{}');
+    ratings[productId] = value;
+    localStorage.setItem(RatingKey, JSON.stringify(ratings));
+    showToast('Rating kamu tersimpan', ICON_CHECK);
+    render();
+  }catch(e){ showToast('Rating belum dapat disimpan.'); }
+}
+function productRatingMarkup(p){
+  const rating = productRating(p);
+  return '<div class="product-rating" aria-label="Rating '+rating.value+' dari 5 dari '+rating.count+' ulasan">'
+    +'<span class="product-rating-stars" aria-hidden="true">'+ratingStars(rating.value)+'</span>'
+    +'<span>'+rating.value.toFixed(1)+'</span><span class="product-rating-count">('+rating.count+')</span>'
+  +'</div>';
+}
 
 function showToast(msg, icon){
   const wrap = document.getElementById('toastwrap');
@@ -971,7 +1327,7 @@ function productCard(p){
         : motifSVG(r.motif, .5)
       )
 
-      +'<div class="pcard-badges">'+(p.badge?'<span class="pill-badge brass">'+esc(p.badge)+'</span>':'')+'</div>'
+      +'<div class="pcard-badges">'+(p.badge?'<span class="pill-badge brass">'+esc(p.badge)+'</span>':'')+'<span class="halal-badge" title="Logo Halal Indonesia"><img src="halal-transparent.png" alt="Halal Indonesia"></span></div>'
     +'</a>'
 
     +'<button class="wish-toggle'+(wished?' active':'')+'" data-wish="'+p.id+'" aria-label="Simpan ke wishlist" onclick="toggleWishlist(\''+p.id+'\')">'
@@ -981,6 +1337,7 @@ function productCard(p){
     +'<div class="pcard-body">'
       +'<a href="#/daerah/'+r.id+'" class="pcard-region">'+esc(r.short)+'</a>'
       +'<a href="#/produk/'+p.id+'"><h3 class="pcard-title">'+esc(p.name)+'</h3></a>'
+      +productRatingMarkup(p)
       +'<div class="pcard-notes">'+p.notes.join(' · ')+'</div>'
 
       +'<div class="pcard-foot">'
@@ -1078,7 +1435,7 @@ function viewBeranda(){
       <p>Delapan titik di kepulauan Indonesia, delapan karakter rasa yang berbeda.</p>
     </div>
     <div class="map-wrap">
-      ${indonesiaMap()}
+      ${googleMapsEmbed()}
     </div>
     <div class="hr-thin"></div>
     <div class="region-grid">${Object.values(REGIONS).map(regionChip).join('')}</div>
@@ -1105,28 +1462,9 @@ function viewBeranda(){
   `;
 }
 
-function indonesiaMap(){
-  // stylised abstract archipelago strip, west (left) to east (right)
-  const pins = [
-    {x:70,y:70,label:'Aceh',region:'aceh'},
-    {x:150,y:95,label:'Sidikalang',region:'sidikalang'},
-    {x:185,y:88,label:'Humbahas',region:'humbahas'},
-    {x:430,y:120,label:'Priangan',region:'preanger'},
-    {x:560,y:130,label:'Bali',region:'bali'},
-    {x:660,y:135,label:'Flores',region:'flores'},
-    {x:560,y:80,label:'Toraja',region:'toraja'},
-    {x:930,y:110,label:'Wamena',region:'papua'},
-  ];
-  const islands = `
-    <path d="M20 90 C60 40 160 45 220 75 C260 95 240 130 190 130 C120 130 40 140 20 90Z" fill="var(--paper-deep)" stroke="var(--line)"/>
-    <path d="M330 100c40-30 130-30 170 0 30 22 10 55-40 60-70 8-170-20-130-60Z" fill="var(--paper-deep)" stroke="var(--line)"/>
-    <path d="M500 60c40-18 90 0 95 35 4 28-30 45-70 40-45-6-70-55-25-75Z" fill="var(--paper-deep)" stroke="var(--line)"/>
-    <ellipse cx="560" cy="128" rx="38" ry="14" fill="var(--paper-deep)" stroke="var(--line)"/>
-    <ellipse cx="655" cy="133" rx="55" ry="13" fill="var(--paper-deep)" stroke="var(--line)"/>
-    <path d="M870 60c70-25 150 10 130 70-16 48-95 70-150 45-55-25-55-95 20-115Z" fill="var(--paper-deep)" stroke="var(--line)"/>
-  `;
-  const pinEls = pins.map(p=>`<a href="#/daerah/${p.region}" class="map-pin"><circle class="dot" cx="${p.x}" cy="${p.y}" r="5"></circle><text x="${p.x}" y="${p.y-11}" text-anchor="middle">${p.label}</text></a>`).join('');
-  return `<svg viewBox="0 0 1000 180" fill="none">${islands}${pinEls}</svg>`;
+function googleMapsEmbed(){
+  const query = encodeURIComponent('SMK Avicena Rajeg');
+  return `<iframe class="map-frame" title="Lokasi SMK Avicena Rajeg di Google Maps" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${query}&output=embed"></iframe>`;
 }
 function viewDaerah(){
   return `
@@ -1144,7 +1482,7 @@ function viewDaerah(){
   </div>
 
   <div class="container section-tight">
-    <div class="region-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="region-grid">
 
       ${Object.values(REGIONS).map(r => `
         <a href="#/daerah/${r.id}"
@@ -1394,8 +1732,19 @@ function viewProductDetail(id){
       <div class="crumbs"><a href="#/beranda">Beranda</a> / <a href="#/katalog">Katalog</a> / ${esc(p.name)}</div>
       <a href="#/daerah/${r.id}" class="pill-badge brass" style="margin-bottom:14px;">${esc(r.name)}</a>
       <h1 style="font-size:30px;">${esc(p.name)}</h1>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;">
+        ${productRatingMarkup(p)}
+        <span class="halal-badge" title="Logo Halal Indonesia"><img src="halal-transparent.png" alt="Halal Indonesia"></span>
+      </div>
       <div class="pd-tastechips">${p.notes.map(n=>'<span class="pill-badge">'+esc(n)+'</span>').join('')}</div>
       <p style="color:var(--ink-soft);max-width:480px;">${esc(p.desc)}</p>
+
+      <div class="rating-panel">
+        <div class="rating-panel-head">
+          <div><strong>Beri rating produk ini</strong><div style="font-size:12px;color:var(--ink-soft);margin-top:3px;">${getUserRating(p.id)?'Rating kamu: '+getUserRating(p.id)+' dari 5':'Pilih 1 sampai 5 bintang'}</div></div>
+          <div class="rating-actions" aria-label="Beri rating untuk ${esc(p.name)}">${[1,2,3,4,5].map(value=>`<button class="rating-star-btn" type="button" onclick="rateProduct('${p.id}',${value})" aria-label="Beri ${value} bintang">★</button>`).join('')}</div>
+        </div>
+      </div>
 
       <div class="pd-price" id="pdPrice">${rupiah(window.__pdCalcPrice())}</div>
       <div class="pd-priceunit">Harga untuk ukuran terpilih</div>
@@ -1554,31 +1903,200 @@ function viewKeranjang(){
   `;
 }
 
-/* ---- Login / Akun ---- */
+/* ---- Login / Akun / Barista ---- */
 let AUTH_MODE = 'masuk';
+let AUTH_ROLE = 'customer';
+
+function setAuthRole(role){
+  AUTH_ROLE = role;
+  AUTH_MODE = 'masuk';
+  render();
+}
+function setAuthMode(m){ AUTH_MODE=m; render(); }
+
 function viewLogin(){
+  if(STATE.barista) return viewBaristaDashboard();
   if(STATE.user) return viewAkun();
   return `
   <div class="auth-wrap container">
     <div class="text-center" style="margin-bottom:26px;">
-      <h1 style="font-size:26px;">Selamat datang kembali</h1>
-      <p style="color:var(--ink-soft);">Masuk untuk melacak pesanan dan menyimpan wishlist kamu.</p>
+      <h1 style="font-size:26px;">Selamat datang</h1>
+      <p style="color:var(--ink-soft);">Masuk sebagai customer atau barista.</p>
     </div>
-    <div class="authtabs">
-      <button class="${AUTH_MODE==='masuk'?'active':''}" onclick="setAuthMode('masuk')">Masuk</button>
-      <button class="${AUTH_MODE==='daftar'?'active':''}" onclick="setAuthMode('daftar')">Daftar</button>
+
+    <div class="authtabs" style="margin-bottom:14px;">
+      <button class="${AUTH_ROLE==='customer'?'active':''}" onclick="setAuthRole('customer')">Customer</button>
+      <button class="${AUTH_ROLE==='barista'?'active':''}" onclick="setAuthRole('barista')">Barista</button>
     </div>
-    <form id="authform" onsubmit="return submitAuth(event)">
-      ${AUTH_MODE==='daftar'?'<div class="field"><label>Nama Lengkap</label><input type="text" name="name" required placeholder="Nama kamu"></div>':''}
-      <div class="field"><label>Email</label><input type="email" name="email" required placeholder="nama@email.com"></div>
-      <div class="field"><label>Kata Sandi</label><input type="password" name="password" required placeholder="••••••••" minlength="4"></div>
-      <button class="btn btn-primary btn-block" type="submit">${AUTH_MODE==='masuk'?'Masuk':'Buat Akun'}</button>
-    </form>
-    <p style="text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:18px;">Ini adalah simulasi akun untuk keperluan demo — data disimpan di perangkat kamu saja.</p>
+
+    ${AUTH_ROLE==='customer' ? `
+      <div class="authtabs">
+        <button class="${AUTH_MODE==='masuk'?'active':''}" onclick="setAuthMode('masuk')">Masuk</button>
+        <button class="${AUTH_MODE==='daftar'?'active':''}" onclick="setAuthMode('daftar')">Daftar</button>
+      </div>
+      <form id="authform" onsubmit="return submitAuth(event)">
+        ${AUTH_MODE==='daftar'?'<div class="field"><label>Nama Lengkap</label><input type="text" name="name" required placeholder="Nama kamu"></div>':''}
+        <div class="field"><label>Email</label><input type="email" name="email" required placeholder="nama@email.com"></div>
+        <div class="field"><label>Kata Sandi</label><input type="password" name="password" required placeholder="Kata sandi"></div>
+        <button class="btn btn-primary btn-block" type="submit">${AUTH_MODE==='masuk'?'Masuk':'Buat Akun'}</button>
+      </form>
+    ` : `
+      <form id="baristaform" onsubmit="return submitBaristaAuth(event)">
+        <div class="field"><label>Email Barista</label><input type="email" name="email" required placeholder="nama@avicena.com"></div>
+        <button class="btn btn-primary btn-block" type="submit">Masuk ke Dashboard</button>
+        <p style="text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:14px;">Akun barista dikelola melalui sheet Baristas. Tidak ada pendaftaran mandiri.</p>
+      </form>
+    `}
   </div>
   `;
 }
-function setAuthMode(m){ AUTH_MODE=m; render(); }
+
+async function submitBaristaAuth(e){
+  e.preventDefault();
+  const email = String(new FormData(e.target).get('email') || '').trim().toLowerCase();
+  const button = e.target.querySelector('button[type="submit"]');
+  if(button){ button.disabled=true; button.textContent='Memeriksa…'; }
+  try{
+    const result = await apiGet('barista', {email});
+    if(!result.barista || result.active !== true){
+      showToast(result.message || 'Akun barista tidak aktif atau tidak ditemukan.');
+      return false;
+    }
+    STATE.user = null;
+    STATE.barista = {
+      baristaId: result.barista.barista_id,
+      name: result.barista.nama,
+      email: result.barista.email,
+      phone: result.barista.no_hp || ''
+    };
+    await loadBaristaDashboard();
+    saveState();
+    location.hash = '#/barista';
+    render();
+    showToast('Selamat datang, '+STATE.barista.name+'!', ICON_CHECK);
+  }catch(err){
+    console.error(err);
+    showToast(err.message || 'Gagal menghubungkan ke server.');
+  }finally{
+    if(button){ button.disabled=false; button.textContent='Masuk ke Dashboard'; }
+  }
+  return false;
+}
+
+async function loadBaristaDashboard(){
+  if(!STATE.barista) return;
+  const result = await apiGet('baristaDashboard', {email:STATE.barista.email});
+  if(result.active !== true) throw new Error('Akun barista sudah tidak aktif.');
+  STATE.baristaData = {
+    products: result.products || [],
+    orders: result.orders || [],
+    items: result.items || []
+  };
+  saveState();
+}
+
+function baristaOrderItems(orderId){
+  const items = (STATE.baristaData && STATE.baristaData.items) || [];
+  return items.filter(x=>String(x.order_id)===String(orderId));
+}
+
+function baristaStatusLabel(status){
+  const map={confirmed:'Pesanan Masuk',processing:'Sedang Diproses',ready:'Siap',completed:'Selesai',cancelled:'Dibatalkan'};
+  return map[String(status||'').toLowerCase()] || status || '—';
+}
+
+function viewBaristaDashboard(){
+  const d=STATE.baristaData||{products:[],orders:[],items:[]};
+  const orders=d.orders||[];
+  const products=d.products||[];
+  const incoming=orders.filter(o=>['confirmed'].includes(String(o.order_status).toLowerCase())).length;
+  const processing=orders.filter(o=>String(o.order_status).toLowerCase()==='processing').length;
+  const ready=orders.filter(o=>String(o.order_status).toLowerCase()==='ready').length;
+  const lowStock=products.filter(p=>Number(p.stok||0)<=5).length;
+  return `
+  <div class="pagehead container">
+    <div class="crumbs">Dashboard / Barista</div>
+    <h1>Halo, ${esc(STATE.barista?.name||'Barista')}</h1>
+    <p class="lead">Kelola pesanan dan stok Kopi Avicena dari sini.</p>
+  </div>
+  <div class="container section-tight">
+    <div class="barista-grid">
+      <div class="spec-card"><div class="barista-stat-label">Pesanan Masuk</div><div class="barista-stat-num">${incoming}</div></div>
+      <div class="spec-card"><div class="barista-stat-label">Diproses</div><div class="barista-stat-num">${processing}</div></div>
+      <div class="spec-card"><div class="barista-stat-label">Siap</div><div class="barista-stat-num">${ready}</div></div>
+      <div class="spec-card"><div class="barista-stat-label">Stok Menipis</div><div class="barista-stat-num">${lowStock}</div></div>
+    </div>
+
+    <div class="split-heading" style="margin:36px 0 16px;"><h2 style="margin:0;">Pesanan</h2><button class="btn btn-ghost btn-sm" onclick="refreshBaristaDashboard()">Refresh</button></div>
+    <div class="barista-orders">
+      ${orders.length ? orders.slice().reverse().map(o=>baristaOrderCard(o)).join('') : '<div class="spec-card">Belum ada pesanan.</div>'}
+    </div>
+
+    <div class="split-heading" style="margin:40px 0 16px;"><h2 style="margin:0;">Stok Produk</h2></div>
+    <div class="barista-stock-list">
+      ${products.length ? products.map(p=>baristaStockCard(p)).join('') : '<div class="spec-card">Belum ada produk di sheet Products.</div>'}
+    </div>
+
+    <button class="btn btn-ghost btn-block" style="margin-top:28px;" onclick="logoutBarista()">Keluar dari Dashboard</button>
+  </div>`;
+}
+
+function baristaOrderCard(o){
+  const items=baristaOrderItems(o.order_id);
+  const status=String(o.order_status||'confirmed').toLowerCase();
+  const next={confirmed:'processing',processing:'ready',ready:'completed'}[status];
+  const nextLabel={processing:'Mulai Proses',ready:'Tandai Siap',completed:'Tandai Selesai'}[next];
+  return `<div class="barista-order-card">
+    <div class="order-head"><div><strong>${esc(o.order_id)}</strong><div class="barista-meta">${esc(o.tanggal||'')} · ${rupiah(Number(o.total||0))}</div></div><span class="pill-badge brass">${esc(baristaStatusLabel(status))}</span></div>
+    <div class="barista-item-list">${items.length?items.map(it=>`<div><span>${esc(it.nama_produk||it.product_id)} × ${Number(it.qty||0)}</span><span>${rupiah(Number(it.subtotal||0))}</span></div>`).join(''):'<div class="barista-meta">Detail item belum tersedia.</div>'}</div>
+    ${next?`<button class="btn btn-primary btn-sm" onclick="baristaAdvanceOrder('${esc(o.order_id)}','${next}')">${nextLabel}</button>`:''}
+  </div>`;
+}
+
+function baristaStockCard(p){
+  const stock=Number(p.stok||0);
+  return `<div class="barista-stock-card"><div><strong>${esc(p.nama||p.product_id)}</strong><div class="barista-meta">${esc(p.product_id)}</div></div><div class="barista-stock-control"><button onclick="changeBaristaStock('${esc(p.product_id)}',-1)">−</button><strong id="stock-${esc(p.product_id)}">${stock}</strong><button onclick="changeBaristaStock('${esc(p.product_id)}',1)">+</button><button class="btn btn-ghost btn-sm" onclick="saveBaristaStock('${esc(p.product_id)}')">Simpan</button></div></div>`;
+}
+
+async function changeBaristaStock(productId,delta){
+  const p=(STATE.baristaData.products||[]).find(x=>String(x.product_id)===String(productId));
+  if(!p) return;
+  p.stok=Math.max(0,Number(p.stok||0)+delta);
+  const el=document.getElementById('stock-'+productId);
+  if(el) el.textContent=p.stok;
+}
+
+async function saveBaristaStock(productId){
+  const p=(STATE.baristaData.products||[]).find(x=>String(x.product_id)===String(productId));
+  if(!p) return;
+  try{
+    await apiPost('updateStock',{product_id:productId,stok:Number(p.stok||0),barista_email:STATE.barista.email});
+    showToast('Stok diperbarui.',ICON_CHECK);
+  }catch(err){ showToast(err.message||'Gagal memperbarui stok.'); }
+}
+
+async function baristaAdvanceOrder(orderId,status){
+  try{
+    await apiPost('updateOrderStatus',{order_id:orderId,order_status:status,barista_email:STATE.barista.email});
+    await refreshBaristaDashboard();
+    showToast('Status pesanan diperbarui.',ICON_CHECK);
+  }catch(err){ showToast(err.message||'Gagal memperbarui pesanan.'); }
+}
+
+async function refreshBaristaDashboard(){
+  try{ await loadBaristaDashboard(); render(); }
+  catch(err){ showToast(err.message||'Gagal memuat dashboard.'); }
+}
+
+function logoutBarista(){
+  STATE.barista=null;
+  STATE.baristaData=null;
+  saveState();
+  location.hash='#/beranda';
+  render();
+  showToast('Kamu sudah keluar');
+}
+
 async function syncAccountData(){
   if(!STATE.user || !STATE.user.userId){
     return;
@@ -1607,46 +2125,38 @@ async function syncAccountData(){
 async function submitAuth(e){
   e.preventDefault();
   const fd = new FormData(e.target);
-  const name = fd.get('name') || (fd.get('email')+'').split('@')[0];
-  const email = fd.get('email');
-
+  const name = String(fd.get('name') || (String(fd.get('email')||'').split('@')[0])).trim();
+  const email = String(fd.get('email') || '').trim().toLowerCase();
+  if(!email) return false;
   try{
-    const res = await fetch('/api/sheets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'createUser', nama: name, email: email, no_hp: '' })
-    });
-    const data = await res.json();
-    if(!data.success){
-      showToast('Gagal membuat akun: ' + (data.message||''));
-      return false;
+    let data;
+    if(AUTH_MODE==='daftar'){
+      data=await apiPost('createUser',{nama:name,email,no_hp:''});
+    }else{
+      data=await apiGet('user',{email});
+      if(!data.user){ showToast('Email belum terdaftar. Silakan pilih Daftar.'); return false; }
     }
-    // Bersihkan data akun sebelumnya sebelum login akun baru
-    STATE.wishlist = [];
-    STATE.orders = [];
-    STATE.addresses = [];
-    STATE.cart = [];
-    STATE.points = 0;
-    STATE.user = { user_id: data.user.user_id, name: data.user.nama, email: data.user.email };
+    if(!data.user) throw new Error('Data akun tidak diterima dari server.');
+    STATE.barista=null;
+    STATE.baristaData=null;
+    STATE.wishlist=[]; STATE.orders=[]; STATE.addresses=[]; STATE.cart=[]; STATE.points=0;
+    STATE.user={userId:data.user.user_id,name:data.user.nama,email:data.user.email,phone:data.user.no_hp||''};
     saveState();
-
-try {
-  await syncAccountData();
-} catch (error) {
-  console.error('Gagal sinkronisasi data akun:', error);
-}
-
-showToast('Selamat datang, '+STATE.user.name+'!', ICON_CHECK);
-    location.hash = '#/akun';
-    render();   // ← dipanggil langsung, nggak nunggu event hashchange
+    await syncAccountData().catch(err=>console.error('Sync akun:',err));
+    showToast(AUTH_MODE==='daftar'?'Akun berhasil dibuat!':'Login berhasil!',ICON_CHECK);
+    location.hash='#/akun';
+    render();
   }catch(err){
     console.error(err);
-    showToast('Gagal terhubung ke server, coba lagi ya.');
+    showToast(err.message||'Gagal terhubung ke server.');
   }
   return false;
 }
+
 function logout(){
   STATE.user = null;
+  STATE.barista = null;
+  STATE.baristaData = null;
   STATE.wishlist = [];
   STATE.cart = [];
   STATE.orders = [];
@@ -1707,6 +2217,7 @@ const SHIPPING_OPTS = [
 function shippingCost(){ return (SHIPPING_OPTS.find(s=>s.id===CO_STATE.shipping)||SHIPPING_OPTS[0]).cost; }
 
 function viewCheckout(){
+  if(!STATE.user) return viewLogin();
   if(!STATE.cart.length){
     return `<div class="container">${emptyState('Keranjang kosong','Tambahkan produk dulu sebelum checkout.', '<a href="#/katalog" class="btn btn-primary">Ke Katalog</a>')}</div>`;
   }
@@ -1942,7 +2453,7 @@ async function coNextFromAddr(e){
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
           action:'createAddress',
-          user_id: STATE.user.user_id,
+          user_id: STATE.user.userId,
           nama_penerima: addr.nama,
           no_hp: addr.hp,
           alamat: addr.alamat,
@@ -1977,7 +2488,7 @@ async function coPlaceOrder(){
       body: JSON.stringify({
         action:'createOrder',
         order_id: orderId,
-        user_id: STATE.user ? STATE.user.user_id : '',
+        user_id: STATE.user ? STATE.user.userId : '',
         total: total,
         payment_status: 'pending',
         order_status: 'confirmed',
@@ -2150,6 +2661,7 @@ function render(){
   else if(root==='wishlist') html = viewWishlist();
   else if(root==='keranjang') html = viewKeranjang();
   else if(root==='login') html = viewLogin();
+  else if(root==='barista') { html = STATE.barista ? viewBaristaDashboard() : viewLogin(); activeRoute='barista'; }
   else if(root==='akun') { html = viewAkun(); activeRoute='akun'; }
   else if(root==='checkout') html = viewCheckout();
    else if(root==='pembayaran-ewallet') html = viewEwalletPayment();
