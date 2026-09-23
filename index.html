@@ -1994,11 +1994,13 @@ function viewLogin(){
         <div class="field"><label>Email</label><input type="email" name="email" required placeholder="nama@email.com"></div>
         <div class="field"><label>Kata Sandi</label><input type="password" name="password" required placeholder="Kata sandi"></div>
         <button class="btn btn-primary btn-block" type="submit">${AUTH_MODE==='masuk'?'Masuk':'Buat Akun'}</button>
+        <div class="auth-status" aria-live="polite"></div>
       </form>
     ` : `
       <form id="baristaform" onsubmit="return submitBaristaAuth(event)">
         <div class="field"><label>Email Barista</label><input type="email" name="email" required placeholder="nama@avicena.com"></div>
         <button class="btn btn-primary btn-block" type="submit">Masuk ke Dashboard</button>
+        <div class="auth-status" aria-live="polite"></div>
         <p style="text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:14px;">Akun barista dikelola melalui sheet Baristas. Tidak ada pendaftaran mandiri.</p>
       </form>
     `}
@@ -2184,8 +2186,13 @@ async function submitAuth(e){
   const email = String(fd.get('email') || '').trim().toLowerCase();
   if(!email) return false;
   const button = e.target.querySelector('button[type="submit"]');
+  const status = e.target.querySelector('.auth-status');
+  const setStatus = (message, type='') => {
+    if(status){ status.textContent=message; status.className='auth-status'+(type?' '+type:''); }
+  };
   const defaultLabel = AUTH_MODE==='daftar' ? 'Buat Akun' : 'Masuk';
   if(button){ button.disabled=true; button.textContent='Memeriksa…'; }
+  setStatus(AUTH_MODE==='daftar'?'Membuat akun…':'Memeriksa akun…');
   showToast(AUTH_MODE==='daftar'?'Membuat akun…':'Memeriksa akun…');
   try{
     let data;
@@ -2193,7 +2200,12 @@ async function submitAuth(e){
       data=await apiPost('createUser',{nama:name,email,no_hp:''});
     }else{
       data=await apiGet('user',{email});
-      if(!data.user){ showToast('Email belum terdaftar. Silakan pilih Daftar.'); return false; }
+      if(!data.user){
+        const message='Email belum terdaftar. Silakan pilih Daftar.';
+        setStatus(message,'error');
+        showToast(message);
+        return false;
+      }
     }
     if(!data.user) throw new Error('Data akun tidak diterima dari server.');
     STATE.barista=null;
@@ -2202,11 +2214,13 @@ async function submitAuth(e){
     STATE.user={userId:data.user.user_id,name:data.user.nama,email:data.user.email,phone:data.user.no_hp||''};
     saveState();
     syncAccountData().catch(err=>console.error('Sync akun:',err));
+    setStatus(AUTH_MODE==='daftar'?'Akun berhasil dibuat!':'Login berhasil!','success');
     showToast(AUTH_MODE==='daftar'?'Akun berhasil dibuat!':'Login berhasil!',ICON_CHECK);
     location.hash='#/akun';
     render();
   }catch(err){
     console.error(err);
+    setStatus(err.message||'Gagal terhubung ke server.','error');
     showToast(err.message||'Gagal terhubung ke server.');
   }finally{
     if(button){ button.disabled=false; button.textContent=defaultLabel; }
