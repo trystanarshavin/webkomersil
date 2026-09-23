@@ -2193,7 +2193,6 @@ async function submitAuth(e){
   const defaultLabel = AUTH_MODE==='daftar' ? 'Buat Akun' : 'Masuk';
   if(button){ button.disabled=true; button.textContent='Memeriksa…'; }
   setStatus(AUTH_MODE==='daftar'?'Membuat akun…':'Memeriksa akun…');
-  showToast(AUTH_MODE==='daftar'?'Membuat akun…':'Memeriksa akun…');
   try{
     let data;
     if(AUTH_MODE==='daftar'){
@@ -2203,7 +2202,6 @@ async function submitAuth(e){
       if(!data.user){
         const message='Email belum terdaftar. Silakan pilih Daftar.';
         setStatus(message,'error');
-        showToast(message);
         return false;
       }
     }
@@ -2221,7 +2219,6 @@ async function submitAuth(e){
   }catch(err){
     console.error(err);
     setStatus(err.message||'Gagal terhubung ke server.','error');
-    showToast(err.message||'Gagal terhubung ke server.');
   }finally{
     if(button){ button.disabled=false; button.textContent=defaultLabel; }
   }
