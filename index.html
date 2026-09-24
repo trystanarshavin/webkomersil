@@ -1322,8 +1322,15 @@ function toggleWishlist(id){
   const i = STATE.wishlist.indexOf(id);
   if(i>-1){ STATE.wishlist.splice(i,1); showToast('Dihapus dari wishlist'); }
   else { STATE.wishlist.push(id); showToast('Disimpan ke wishlist', ICON_HEART); }
+  const active = isWishlisted(id);
   saveState(); updateHeaderBadges();
-  document.querySelectorAll('[data-wish="'+id+'"]').forEach(el=>el.classList.toggle('active', isWishlisted(id)));
+  document.querySelectorAll('[data-wish="'+id+'"]').forEach(el=>{
+    el.classList.toggle('active', active);
+    el.setAttribute('aria-pressed', String(active));
+    el.setAttribute('aria-label', active ? 'Hapus dari wishlist' : 'Simpan ke wishlist');
+    const path = el.querySelector('path');
+    if(path){ path.setAttribute('fill', active ? 'var(--brick)' : 'none'); path.setAttribute('stroke', active ? 'var(--brick)' : 'var(--ink)'); }
+  });
 }
 
 function cartLineTotal(line){
