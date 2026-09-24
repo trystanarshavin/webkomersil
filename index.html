@@ -892,6 +892,21 @@ footer .brand-word{font-size:21px;}
 .pill-badge{color:#245247;}
 .pill-badge.brass{color:#6f4812;}
 footer,footer p,footer h4,footer .footbottom{color:#f8efdf;}
+.hero-art{position:relative;overflow:hidden;isolation:isolate;}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-2;}
+.hero-photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,10,6,.04) 20%,rgba(20,10,6,.8) 100%);z-index:-1;}
+.hero-photo-copy{position:absolute;left:28px;bottom:28px;color:#fffdf8;display:flex;flex-direction:column;gap:4px;text-shadow:0 2px 8px rgba(0,0,0,.5);}
+.hero-photo-copy span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#f0dfba;}
+.hero-photo-copy strong{font-family:"Fraunces",serif;font-size:30px;line-height:1.05;font-weight:560;}
+.hero-photo-copy small{font-size:12.5px;color:#fffdf8;}
+.hero-photo-link{position:absolute;right:24px;bottom:24px;padding:10px 13px;border:1px solid rgba(255,255,255,.5);border-radius:8px;color:#fffdf8;background:rgba(20,10,6,.28);font-size:12px;font-weight:700;backdrop-filter:blur(6px);}
+.hero-photo-link:hover{background:#fffdf8;color:#211612;}
+@media(max-width:640px){
+  .hero-photo-copy{left:20px;bottom:20px;max-width:65%;}
+  .hero-photo-copy strong{font-size:25px;}
+  .hero-photo-copy small{font-size:11px;line-height:1.35;}
+  .hero-photo-link{right:18px;top:18px;bottom:auto;padding:9px 11px;font-size:11px;}
+}
 </style>
 </head>
 <body>
@@ -1472,23 +1487,14 @@ function viewBeranda(){
       </div>
     </div>
     <div class="hero-art">
-      <svg viewBox="0 0 300 320" fill="none">
-        <ellipse cx="150" cy="300" rx="86" ry="10" fill="var(--ink)" opacity=".06"/>
-        <path d="M78 150h134l-9 108c-1.6 15-13.6 26-28.7 26h-58.6c-15 0-27-11-28.7-26L78 150Z" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/>
-        <path d="M212 168h20a26 26 0 0 1 0 52h-20" fill="none" stroke="var(--ink)" stroke-width="2"/>
-        <path d="M96 150c6-18 26-30 54-30s48 12 54 30" fill="var(--brass-tint)" stroke="var(--ink)" stroke-width="2"/>
-        <g class="steam" stroke="var(--ink-soft)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".55">
-          <path d="M118 108c-8-14 8-18 0-32"/>
-          <path d="M150 100c-8-14 8-18 0-32"/>
-          <path d="M182 108c-8-14 8-18 0-32"/>
-        </g>
-        <g opacity=".9">
-          <ellipse cx="60" cy="248" rx="15" ry="21" transform="rotate(20 60 248)" fill="#f4ebd8" stroke="var(--ink)" stroke-width="1.6"/>
-          <path d="M60 230c-6 9-6 27 0 36" stroke="var(--ink)" stroke-width="1.4" transform="rotate(20 60 248)"/>
-          <ellipse cx="244" cy="252" rx="15" ry="21" transform="rotate(-16 244 252)" fill="#f4ebd8" stroke="var(--ink)" stroke-width="1.6"/>
-          <path d="M244 234c-6 9-6 27 0 36" stroke="var(--ink)" stroke-width="1.4" transform="rotate(-16 244 252)"/>
-        </g>
-      </svg>
+      <img class="hero-photo" src="gayo.jpeg" alt="Kopi Gayo Aceh Wine Process">
+      <div class="hero-photo-shade"></div>
+      <div class="hero-photo-copy">
+        <span>Single origin pilihan</span>
+        <strong>Gayo Aceh</strong>
+        <small>Wine Process · 1.200–1.700 mdpl</small>
+      </div>
+      <a class="hero-photo-link" href="#/produk/gayo-wine">Lihat produk</a>
     </div>
   </section>
 
