@@ -2364,12 +2364,12 @@ function checkoutStepBody(){
     <form id="addrform" onsubmit="return coNextFromAddr(event)">
       <div class="field-row">
         <div class="field"><label>Nama Penerima</label><input required name="nama" placeholder="Nama lengkap"></div>
-        <div class="field"><label>No. HP / WhatsApp</label><input required name="hp" placeholder="08xxxxxxxxxx"></div>
+        <div class="field"><label>No. HP / WhatsApp</label><input required name="hp" type="tel" inputmode="tel" pattern="[0-9+() .-]{8,}" title="Masukkan nomor HP yang valid" placeholder="08xxxxxxxxxx"></div>
       </div>
       <div class="field"><label>Alamat Lengkap</label><textarea required name="alamat" rows="3" placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan"></textarea></div>
       <div class="field-row">
         <div class="field"><label>Kota / Kabupaten</label><input required name="kota" placeholder="Kota"></div>
-        <div class="field"><label>Kode Pos</label><input required name="kodepos" placeholder="Kode pos"></div>
+        <div class="field"><label>Kode Pos</label><input required name="kodepos" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" title="Kode pos harus 5 digit" placeholder="Kode pos"></div>
       </div>
       <div class="field"><label>Catatan (opsional)</label><input name="catatan" placeholder="Contoh: titip satpam, patokan rumah"></div>
       <button class="btn btn-primary" type="submit">Lanjut ke Pengiriman</button>
