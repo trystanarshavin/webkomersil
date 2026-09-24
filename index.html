@@ -862,6 +862,36 @@ footer .brand-word{font-size:21px;}
 .crumbs a{color:#211612;}
 .region-hero .rloc,.region-hero h1,.region-hero p,.region-hero .crumbs,.region-hero .crumbs a{color:#fff;}
 .region-hero .region-hero-inner p{ text-shadow:0 1px 5px rgba(0,0,0,.55);}
+.toast{background:#24130d !important;color:#fffdf8 !important;min-height:46px;max-width:min(420px,calc(100vw - 32px));padding:12px 18px;border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 26px rgba(20,10,5,.3);}
+.toast span{color:#fffdf8 !important;}
+@media(max-width:640px){.toast{font-size:13px;text-align:center;line-height:1.35;}}
+.pd-actions{position:relative;}
+@media(max-width:640px){
+  .pd-actions{
+    position:sticky;
+    bottom:calc(58px + env(safe-area-inset-bottom,0px));
+    z-index:50;
+    margin:22px -8px 18px;
+    padding:10px 8px;
+    background:rgba(247,242,233,.94);
+    border:1px solid rgba(33,22,18,.12);
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(33,22,18,.12);
+    backdrop-filter:blur(10px);
+  }
+}
+.btn-primary{background:#24130d;color:#fffdf8;}
+.btn-primary:hover{background:#9b3e2d;color:#fffdf8;}
+.btn-brass{background:#c18a35;color:#211612;}
+.btn-brass:hover{background:#8c5d19;color:#fffdf8;}
+.btn-ghost{color:#211612;background:#fffdf8;border-color:rgba(33,22,18,.22);}
+.opt-chip.selected{background:#211612;color:#fffdf8;border-color:#211612;}
+.pay-option.selected{color:#211612;background:#fffdf8;}
+.pay-option.selected .pay-option-l{color:#211612;}
+.ewallet-item.selected{color:#211612;background:#e4d6bd;}
+.pill-badge{color:#245247;}
+.pill-badge.brass{color:#6f4812;}
+footer,footer p,footer h4,footer .footbottom{color:#f8efdf;}
 </style>
 </head>
 <body>
